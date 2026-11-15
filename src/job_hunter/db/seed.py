@@ -1,6 +1,5 @@
 import argparse
 import asyncio
-import hashlib
 import logging
 from dataclasses import dataclass
 from datetime import UTC, datetime
@@ -18,6 +17,7 @@ from job_hunter.db.models import (
     PipelineRun,
     Vacancy,
 )
+from job_hunter.sources.normalizer import build_dedup_hash
 
 logger = logging.getLogger(__name__)
 
@@ -68,12 +68,6 @@ class SeedStats:
     calibrations_inserted: int
     vacancies_inserted: int
     pipeline_runs_inserted: int
-
-
-def build_dedup_hash(title: str, company: str) -> str:
-    """Build deterministic sha256 hash from normalized title and company."""
-    normalized = f"{title.strip().lower()}|{company.strip().lower()}"
-    return hashlib.sha256(normalized.encode("utf-8")).hexdigest()
 
 
 def load_seed_payload(path: Path = DEFAULT_SEED_PATH) -> SeedPayload:
