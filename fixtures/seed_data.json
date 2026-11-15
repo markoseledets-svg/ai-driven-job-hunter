@@ -1,0 +1,266 @@
+{
+  "profile": {
+    "resume_text": "# Jordan Petrenko (Synthetic Test Profile)\nLocation: Remote (EU / Ukraine timezone)\nTarget Role: Junior / Strong Junior Python Backend Developer\n\n## Core Stack\n- Python 3.12, AsyncIO, FastAPI, Pydantic v2\n- PostgreSQL, SQLAlchemy 2.0 (async), Alembic\n- Docker, Docker Compose, Git, GitHub Actions (CI)\n- Testing & Quality: pytest, ruff, mypy\n- Experience: ~6 months commercial/freelance + 2 completed backend portfolio projects (REST APIs, OAuth2, async DB pipelines, LLM integration)\n\n## Preferences\n- Remote or hybrid\n- Backend / API / AI-integration focused roles\n- Not looking for: PHP, Java, 1C, Manual QA, Frontend-only, or Senior (4+ yrs) roles",
+    "prefilter_config": {
+      "excluded_title_keywords": [
+        "senior",
+        "staff",
+        "principal",
+        "lead",
+        "architect",
+        "php",
+        "laravel",
+        "java",
+        "c#",
+        ".net",
+        "1c",
+        "qa",
+        "manual",
+        "frontend",
+        "angular",
+        "wordpress"
+      ],
+      "excluded_description_keywords": [
+        "5+ years of commercial experience",
+        "relocation required to office only"
+      ],
+      "excluded_companies": [
+        "LegacySpam Corp"
+      ],
+      "required_any_keywords": [
+        "python",
+        "fastapi",
+        "django",
+        "backend",
+        "sqlalchemy"
+      ],
+      "allowed_languages": [
+        "en",
+        "uk"
+      ]
+    },
+    "min_notify_score": 75
+  },
+  "calibration_examples": [
+    {
+      "title": "Senior PHP / Laravel Developer",
+      "description_snippet": "Looking for a Senior PHP developer with 5+ years of Laravel and Symfony experience to maintain a legacy billing monolith. Office-only.",
+      "expected_score": 12,
+      "rationale": "Wrong primary language (PHP instead of Python), Senior level (5+ years), and office-only legacy maintenance.",
+      "is_active": true
+    },
+    {
+      "title": "Junior QA Engineer (with Python scripting)",
+      "description_snippet": "Manual regression testing of web apps (70%), writing basic Selenium test scripts in Python (30%). SQL basics are a plus.",
+      "expected_score": 24,
+      "rationale": "Mentions Python, so keyword filter may pass, but the role is primarily Manual QA rather than backend software engineering.",
+      "is_active": true
+    },
+    {
+      "title": "Senior Python Backend Engineer (Distributed Systems)",
+      "description_snippet": "5+ years Python, high-load Kafka pipelines, Kubernetes operators, gRPC microservices, mentoring junior developers. FastAPI and PostgreSQL.",
+      "expected_score": 38,
+      "rationale": "Matching core stack (Python, FastAPI, PostgreSQL), but 5+ years seniority and heavy distributed infrastructure expectations make it unrealistic.",
+      "is_active": true
+    },
+    {
+      "title": "Junior/Middle Python Django Developer",
+      "description_snippet": "1+ year with Django, DRF, Celery, PostgreSQL. Some legacy Django templates and jQuery maintenance. Remote friendly.",
+      "expected_score": 52,
+      "rationale": "Right language, remote format, and near-matching seniority, though focused on Django monolith + legacy frontend templates rather than FastAPI.",
+      "is_active": true
+    },
+    {
+      "title": "Python Data Scraping & Automation Engineer",
+      "description_snippet": "Build Playwright/Scrapy crawlers, clean datasets with Pandas, expose a tiny internal FastAPI status endpoint. 1 year Python experience.",
+      "expected_score": 64,
+      "rationale": "Good Python level and mentions FastAPI, but day-to-day work is web scraping and ETL scripting rather than core backend product architecture.",
+      "is_active": true
+    },
+    {
+      "title": "Middle- Python Backend Developer (FastAPI + Redis)",
+      "description_snippet": "1.5-2 years commercial Python. FastAPI, SQLAlchemy async, PostgreSQL, Redis caching, Celery, Docker. Strong engineering culture.",
+      "expected_score": 74,
+      "rationale": "Almost exact stack match and great product fit, but asks for 1.5-2 years experience plus Redis/Celery production exposure — borderline stretch role worth watching.",
+      "is_active": true
+    },
+    {
+      "title": "Junior+ Python Backend Developer (FastAPI / Postgres)",
+      "description_snippet": "6+ months commercial or strong pet-project experience. FastAPI, SQLAlchemy 2.0, PostgreSQL, Docker, pytest. Nice to have: Redis.",
+      "expected_score": 84,
+      "rationale": "Strong match on FastAPI, SQLAlchemy 2.0, PostgreSQL, Docker, and testing expectations; only minor nice-to-have gap in Redis.",
+      "is_active": true
+    },
+    {
+      "title": "Junior Python / AI Integration Backend Engineer",
+      "description_snippet": "Build async FastAPI services, PostgreSQL + Alembic migrations, structured LLM integrations (Gemini/OpenAI APIs), CI with ruff and pytest. Fully remote.",
+      "expected_score": 93,
+      "rationale": "Near-ideal match across core stack (FastAPI, SQLAlchemy/Alembic, Postgres, pytest, ruff) plus direct alignment with AI API integration experience.",
+      "is_active": true
+    }
+  ],
+  "vacancies": [
+    {
+      "source": "API",
+      "external_id": "remotive-1001",
+      "canonical_url": "https://jobs.example.com/vacancies/1001-junior-python-fastapi",
+      "title": "Junior Python Backend Developer (FastAPI)",
+      "company": "Northstar Cloud",
+      "location_or_remote": "Remote (EU)",
+      "salary_raw": "$1400 - $1900",
+      "description_raw": "We are hiring a Junior Python Backend Developer to join our core API team. Stack: Python 3.12, FastAPI, SQLAlchemy 2.0 async, PostgreSQL, Alembic, Docker, pytest. You will build REST endpoints, write migrations, and integrate external APIs.",
+      "partial_data": false,
+      "status": "NEW"
+    },
+    {
+      "source": "EMAIL",
+      "external_id": null,
+      "canonical_url": "https://alerts.example.com/jobs/1002-python-ai-backend",
+      "title": "Python Backend & LLM Integrations Engineer (Junior+)",
+      "company": "Helios Data",
+      "location_or_remote": "Remote",
+      "salary_raw": null,
+      "description_raw": "Email digest snippet: Helios Data is looking for a Python developer familiar with FastAPI, Postgres, and Gemini/OpenAI structured outputs. Full description on portal.",
+      "partial_data": true,
+      "status": "NEW"
+    },
+    {
+      "source": "API",
+      "external_id": "dou-1003",
+      "canonical_url": "https://jobs.example.com/vacancies/1003-senior-java-spring",
+      "title": "Senior Java Spring Boot Engineer",
+      "company": "Kestrel Systems",
+      "location_or_remote": "Kyiv / Hybrid",
+      "salary_raw": "$4500 - $5500",
+      "description_raw": "Enterprise banking platform on Java 21, Spring Boot, Oracle DB, Kafka. 5+ years required.",
+      "partial_data": false,
+      "status": "PREFILTERED"
+    },
+    {
+      "source": "API",
+      "external_id": "dou-1004",
+      "canonical_url": "https://jobs.example.com/vacancies/1004-python-django-junior",
+      "title": "Junior Python / Django Developer",
+      "company": "Boreal Commerce",
+      "location_or_remote": "Remote (Ukraine)",
+      "salary_raw": "$1000 - $1300",
+      "description_raw": "E-commerce platform built on Django, DRF, PostgreSQL, Docker. Looking for a junior developer with 6+ months Python experience and solid SQL knowledge.",
+      "partial_data": false,
+      "status": "SCORED",
+      "ai_score": 58,
+      "ai_summary": "Good entry-level Python match and remote format, but primary framework is Django/DRF rather than FastAPI.",
+      "matched_skills": [
+        "Python",
+        "PostgreSQL",
+        "Docker",
+        "REST API"
+      ],
+      "missing_skills": [
+        "Django",
+        "Django REST Framework"
+      ],
+      "ai_model_used": "gemini-2.5-flash"
+    },
+    {
+      "source": "EMAIL",
+      "external_id": null,
+      "canonical_url": "https://alerts.example.com/jobs/1005-backend-fastapi-borderline",
+      "title": "Python Backend Engineer (FastAPI + Celery)",
+      "company": "Lumen Pay",
+      "location_or_remote": "Remote",
+      "salary_raw": "$1800 - $2300",
+      "description_raw": "Fintech team looking for a developer with 1.5 years Python experience. Stack: FastAPI, SQLAlchemy, Postgres, Redis, Celery, GitHub Actions.",
+      "partial_data": false,
+      "status": "SCORED",
+      "ai_score": 73,
+      "ai_summary": "Strong stack alignment (FastAPI, SQLAlchemy, Postgres, CI), just slightly below notify threshold due to 1.5 years experience and Celery requirement.",
+      "matched_skills": [
+        "Python",
+        "FastAPI",
+        "SQLAlchemy",
+        "PostgreSQL",
+        "GitHub Actions"
+      ],
+      "missing_skills": [
+        "Redis",
+        "Celery",
+        "1.5+ yrs commercial experience"
+      ],
+      "ai_model_used": "gemini-2.5-flash"
+    },
+    {
+      "source": "API",
+      "external_id": "remotive-1006",
+      "canonical_url": "https://jobs.example.com/vacancies/1006-junior-plus-fastapi",
+      "title": "Junior+ Python Backend Developer (AsyncIO / FastAPI)",
+      "company": "Velox Fintech",
+      "location_or_remote": "Remote (EU)",
+      "salary_raw": "$1600 - $2100",
+      "description_raw": "Async microservices on Python 3.12, FastAPI, SQLAlchemy 2.0, Alembic, PostgreSQL, Docker, mypy, pytest. Bonus: Redis experience.",
+      "partial_data": false,
+      "status": "NOTIFIED",
+      "ai_score": 77,
+      "ai_summary": "Borderline-high match above threshold: core async FastAPI/SQLAlchemy/Alembic stack aligns directly, minor gap in production Redis.",
+      "matched_skills": [
+        "Python 3.12",
+        "FastAPI",
+        "SQLAlchemy 2.0",
+        "Alembic",
+        "PostgreSQL",
+        "pytest",
+        "mypy"
+      ],
+      "missing_skills": [
+        "Redis"
+      ],
+      "ai_model_used": "gemini-2.5-flash"
+    },
+    {
+      "source": "EMAIL",
+      "external_id": null,
+      "canonical_url": "https://alerts.example.com/jobs/1007-partial-python-api",
+      "title": "Junior Backend Engineer (Python / API)",
+      "company": "Atlas Logistics",
+      "location_or_remote": "Remote",
+      "salary_raw": null,
+      "description_raw": "Partial email alert: Atlas Logistics - Junior Backend Engineer (Python / API) - Remote.",
+      "partial_data": true,
+      "status": "SKIPPED",
+      "ai_score": 68,
+      "ai_summary": "Title and remote format fit well, but partial email snippet lacks framework and DB details so confidence is limited.",
+      "matched_skills": [
+        "Python",
+        "Backend API"
+      ],
+      "missing_skills": [
+        "Full description unavailable"
+      ],
+      "ai_model_used": "gemini-2.5-flash"
+    },
+    {
+      "source": "API",
+      "external_id": "djinni-1008",
+      "canonical_url": "https://jobs.example.com/vacancies/1008-python-ai-backend",
+      "title": "Junior Python Backend Developer (FastAPI & AI APIs)",
+      "company": "Cobalt Labs",
+      "location_or_remote": "Remote (Kyiv / EU)",
+      "salary_raw": "$1500 - $2000",
+      "description_raw": "Looking for a motivated Junior Python Engineer. Stack: FastAPI, Pydantic v2, PostgreSQL, SQLAlchemy, Docker, Gemini API structured outputs, GitHub Actions.",
+      "partial_data": false,
+      "status": "APPLIED",
+      "ai_score": 91,
+      "ai_summary": "Excellent match: nearly identical stack to candidate profile including FastAPI, Pydantic v2, SQLAlchemy, Postgres, Docker, and Gemini API.",
+      "matched_skills": [
+        "FastAPI",
+        "Pydantic v2",
+        "PostgreSQL",
+        "SQLAlchemy",
+        "Docker",
+        "Gemini API",
+        "GitHub Actions"
+      ],
+      "missing_skills": [],
+      "ai_model_used": "gemini-2.5-flash"
+    }
+  ]
+}
