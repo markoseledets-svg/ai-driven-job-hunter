@@ -19,6 +19,7 @@ class Base(DeclarativeBase):
         UUID: Uuid,
     }
 
+
 class BaseIndexModel(Base):
     __abstract__ = True
     id: Mapped[UUID] = mapped_column(primary_key=True, unique=True, nullable=False, default=uuid7)
