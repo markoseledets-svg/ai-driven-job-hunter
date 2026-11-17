@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<rss version="2.0">
+  <channel>
+    <title>Вакансії Python на DOU</title>
+    <link>https://jobs.dou.ua/vacancies/?category=Python</link>
+    <description>Останні вакансії Python</description>
+    <item>
+      <title>Junior Data Engineer (Python, SQL, C#, Azure) в FinData Solutions, $1300–1900, віддалено</title>
+      <link>https://jobs.dou.ua/companies/findata-solutions/vacancies/900123/?utm_source=jobsrss</link>
+      <description>&lt;h3&gt;About the role&lt;/h3&gt;&lt;p&gt;We are looking for a Junior Data Engineer to build Python ETL pipelines.&lt;/p&gt;&lt;ul&gt;&lt;li&gt;Python and PostgreSQL&lt;/li&gt;&lt;li&gt;REST APIs and Docker&lt;/li&gt;&lt;/ul&gt;</description>
+      <pubDate>Tue, 17 Nov 2026 17:06:53 +0200</pubDate>
+      <guid>https://jobs.dou.ua/companies/findata-solutions/vacancies/900123/</guid>
+    </item>
+    <item>
+      <title>Python Backend Engineer в CloudForge, Poland (remote), Ukraine (remote), Львів</title>
+      <link>https://jobs.dou.ua/companies/cloudforge/vacancies/900124/?utm_source=jobsrss&amp;ref=rss</link>
+      <description>&lt;p&gt;FastAPI microservices and async PostgreSQL.&lt;/p&gt;&lt;script&gt;alert(1)&lt;/script&gt;</description>
+      <pubDate>Tue, 17 Nov 2026 16:30:00 +0200</pubDate>
+      <guid>https://jobs.dou.ua/companies/cloudforge/vacancies/900124/</guid>
+    </item>
+    <item>
+      <title>Broken item without link</title>
+      <description>&lt;p&gt;Should be skipped by parser.&lt;/p&gt;</description>
+    </item>
+  </channel>
+</rss>

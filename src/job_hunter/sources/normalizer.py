@@ -36,6 +36,6 @@ def sanitize_html(raw_html: str, max_length: int = 6000) -> str:
     return clean_text[:max_length]
 
 
-def build_dedup_hash(title: str, company: str) -> str:
-    normalized = f"{title.strip().lower()}|{company.strip().lower()}"
+def build_dedup_hash(title: str, dedup_param: str) -> str:
+    normalized = f"{title.strip().lower()}|{dedup_param.strip().lower()}"
     return hashlib.sha256(normalized.encode("utf-8")).hexdigest()
