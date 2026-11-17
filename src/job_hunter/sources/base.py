@@ -1,27 +1,11 @@
 from abc import ABC, abstractmethod
-from datetime import UTC, datetime
 from typing import Any
 
 from httpx import AsyncClient, Response
-from pydantic import BaseModel, Field
 
-from job_hunter.db.enums import VacancySource
+from job_hunter.schemas.vacancy_schemas import RawVacancy
 
 headers = {"User-Agent": "ai-driven-job-hunter/0.1"}
-
-
-class RawVacancy(BaseModel):
-    source: VacancySource
-    external_id: str | None = None
-    canonical_url: str
-    dedup_hash: str
-    title: str
-    company: str
-    location_or_remote: str | None = None
-    salary_raw: str | None = None
-    description_raw: str
-    partial_data: bool
-    fetched_at: datetime = Field(default=datetime.now(UTC))
 
 
 class BaseJobSource(ABC):
@@ -29,9 +13,9 @@ class BaseJobSource(ABC):
     async def fetch(self) -> list[RawVacancy]:
         pass
 
-    @abstractmethod
     @property
-    def source_name(self) -> VacancySource: ...
+    @abstractmethod
+    def source_name(self) -> str: ...
 
 
 class BaseHttpJobSource(BaseJobSource, ABC):

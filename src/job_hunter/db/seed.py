@@ -10,7 +10,7 @@ from sqlalchemy import select
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from job_hunter.core.schemas import PrefilterConfig
-from job_hunter.db.enums import VacancySource, VacancyStatus
+from job_hunter.db.enums import VacancyStatus
 from job_hunter.db.models import (
     CalibrationExample,
     CandidateProfile,
@@ -39,7 +39,7 @@ class CalibrationExampleSeed(BaseModel):
 
 
 class VacancySeed(BaseModel):
-    source: VacancySource
+    source: str
     external_id: str | None = None
     canonical_url: str = Field(min_length=8)
     title: str = Field(min_length=3)

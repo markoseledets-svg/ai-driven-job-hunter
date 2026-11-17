@@ -7,7 +7,7 @@ from sqlalchemy.orm import Mapped, mapped_column, relationship
 from uuid6 import UUID
 
 from job_hunter.db.base import BaseIndexModel, BaseTimeStampModel
-from job_hunter.db.enums import VacancySource, VacancyStatus
+from job_hunter.db.enums import VacancyStatus
 
 
 class CandidateProfile(BaseIndexModel):
@@ -34,19 +34,16 @@ class CalibrationExample(BaseIndexModel, BaseTimeStampModel):
     is_active: Mapped[bool] = mapped_column(Boolean, nullable=False, default=True)
 
 
-class Vacancy(BaseIndexModel, BaseTimeStampModel):
+class Vacancy(BaseIndexModel):
     __tablename__ = "vacancy"
 
     pipeline_id: Mapped[UUID | None] = mapped_column(
         ForeignKey("pipeline_run.id", ondelete="SET NULL"), index=True
     )
-    source: Mapped[VacancySource] = mapped_column(
-        Enum(VacancySource, native_enum=False),
-        nullable=False,
-    )
+    source: Mapped[str] = mapped_column(Text, nullable=False, index=True)
     external_id: Mapped[str | None] = mapped_column(Text, nullable=True)
-    canonical_url: Mapped[str] = mapped_column(Text, unique=True, nullable=False)
-    dedup_hash: Mapped[str] = mapped_column(Text, unique=True, nullable=False)
+    canonical_url: Mapped[str] = mapped_column(Text, index=True, nullable=False)
+    dedup_hash: Mapped[str] = mapped_column(Text, index=True, nullable=False)
 
     title: Mapped[str] = mapped_column(Text, nullable=False)
     company: Mapped[str] = mapped_column(Text, nullable=False)
@@ -69,6 +66,7 @@ class Vacancy(BaseIndexModel, BaseTimeStampModel):
     fetched_at: Mapped[datetime] = mapped_column(
         DateTime(timezone=True),
         nullable=False,
+        index=True,
         default=lambda: datetime.now(UTC),
     )
     scored_at: Mapped[datetime | None] = mapped_column(DateTime(timezone=True), nullable=True)
