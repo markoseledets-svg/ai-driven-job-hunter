@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Latest Job Vacancies at Djinni</title>
+    <link>http://djinni.co/jobs/</link>
+    <description>Stay updated with the newest job opportunities at Djinni.</description>
+    <item>
+      <title>Junior AI Automation Engineer (Python, Claude Code)</title>
+      <link>https://djinni.co/jobs/858641-junior-ai-automation-engineer/?utm_source=rss</link>
+      <description>&lt;p&gt;«Нексус-Буд» — інжинірингова компанія з Києва.&lt;/p&gt;&lt;p&gt;&lt;strong&gt;Що пропонуємо:&lt;/strong&gt;&lt;/p&gt;&lt;ul&gt;&lt;li&gt;$700–1100 на руки;&lt;/li&gt;&lt;li&gt;офіс у Києві.&lt;/li&gt;&lt;/ul&gt;</description>
+      <pubDate>Tue, 17 Nov 2026 20:20:37 +0200</pubDate>
+      <guid>https://djinni.co/jobs/858641-junior-ai-automation-engineer/</guid>
+      <category>Python</category>
+    </item>
+    <item>
+      <title>Senior Python Engineer</title>
+      <link>https://djinni.co/jobs/858605-senior-python-engineer/</link>
+      <description>&lt;p&gt;On behalf of our Client from the UK, &lt;strong&gt;NovaBridge&lt;/strong&gt; is looking for Senior Python Engineer.&lt;/p&gt;&lt;p&gt;Fully remote role with AWS Lambda and FastAPI.&lt;/p&gt;</description>
+      <pubDate>Tue, 17 Nov 2026 17:40:38 +0200</pubDate>
+      <guid>https://djinni.co/jobs/858605-senior-python-engineer/</guid>
+      <category>Python</category>
+    </item>
+    <item>
+      <title>Backend Team Lead (Python)</title>
+      <link>https://djinni.co/jobs/858577-backend-team-lead-python/</link>
+      <description>&lt;p&gt;Lead a backend team building data pipelines. Hybrid format.&lt;/p&gt;&lt;p&gt;Why ApexLabs&lt;/p&gt;&lt;p&gt;Great engineering culture and modern stack.&lt;/p&gt;</description>
+      <pubDate>Tue, 17 Nov 2026 16:28:58 +0200</pubDate>
+      <guid>https://djinni.co/jobs/858577-backend-team-lead-python/</guid>
+      <category>Python</category>
+    </item>
+    <item>
+      <title>Broken item without link</title>
+      <description>&lt;p&gt;Should be skipped.&lt;/p&gt;</description>
+    </item>
+  </channel>
+</rss>

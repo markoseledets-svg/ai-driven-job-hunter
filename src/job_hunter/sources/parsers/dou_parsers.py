@@ -1,16 +1,11 @@
 import re
 from dataclasses import dataclass
 
-_SALARY_PATTERN = re.compile(
-    r"(?:(?:від|до|from|to|up to)\s+)?"
-    r"(?:(?:[$€₴]|грн\.?|uah|usd|eur)\s*\d+(?:[\s.,]\d+)*\s*[kк]?"
-    r"(?:\s*[-–—]\s*(?:[$€₴]|грн\.?|uah|usd|eur)?\s*\d+(?:[\s.,]\d+)*\s*[kк]?)?"
-    r"|\d+(?:[\s.,]\d+)*\s*[kк]?"
-    r"(?:\s*(?:[$€₴]|грн\.?|uah|usd|eur)?\s*[-–—]\s*\d+(?:[\s.,]\d+)*\s*[kк]?)?"
-    r"\s*(?:[$€₴]|грн\.?|uah|usd|eur))"
-    r"(?=\s|$|[.,;!?)])",
-    flags=re.IGNORECASE,
+from job_hunter.sources.parsers.base_parsers import (
+    extract_external_id_from_url,
+    get_salary_from_str,
 )
+
 _DOU_ID_PATTERN = re.compile(r"/vacancies/(\d+)")
 
 
@@ -22,14 +17,8 @@ class DouTitleParts:
     location_or_remote: str | None = None
 
 
-def get_salary_from_str(text: str) -> str | None:
-    match = _SALARY_PATTERN.search(text)
-    return match.group(0).strip() if match else None
-
-
 def extract_dou_external_id(url: str) -> str | None:
-    match = _DOU_ID_PATTERN.search(url)
-    return match.group(1) if match else None
+    return extract_external_id_from_url(url=url, pattern=_DOU_ID_PATTERN)
 
 
 def _split_dou_title_tail(raw_title: str) -> tuple[str, str | None]:

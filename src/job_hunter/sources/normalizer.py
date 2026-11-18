@@ -1,8 +1,17 @@
 import hashlib
 import re
+from dataclasses import dataclass
 from urllib.parse import parse_qsl, urlencode, urlsplit, urlunsplit
+from xml.etree.ElementTree import Element
 
 from bs4 import BeautifulSoup
+
+
+@dataclass(frozen=True)
+class XmlOutput:
+    title: str
+    description: str
+    url: str
 
 
 def canonicalize_url(url: str) -> str:
@@ -39,3 +48,15 @@ def sanitize_html(raw_html: str, max_length: int = 6000) -> str:
 def build_dedup_hash(title: str, dedup_param: str) -> str:
     normalized = f"{title.strip().lower()}|{dedup_param.strip().lower()}"
     return hashlib.sha256(normalized.encode("utf-8")).hexdigest()
+
+
+def normalize_rss_xml(item: Element) -> XmlOutput | None:
+    raw_title = item.findtext("title")
+    link = item.findtext("link")
+    if not link or not raw_title:
+        return None
+    title = raw_title.strip()
+    url = canonicalize_url(link.strip())
+    raw_desc = item.findtext("description")
+    description = sanitize_html(raw_desc) if raw_desc else ""
+    return XmlOutput(title=title, description=description, url=url)

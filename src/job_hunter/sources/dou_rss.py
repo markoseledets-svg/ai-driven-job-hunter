@@ -5,8 +5,8 @@ from httpx import AsyncClient
 
 from job_hunter.schemas.vacancy_schemas import RawVacancy
 from job_hunter.sources.base import BaseHttpJobSource
-from job_hunter.sources.normalizer import build_dedup_hash, canonicalize_url, sanitize_html
-from job_hunter.sources.parsers import extract_dou_external_id, parse_dou_title
+from job_hunter.sources.normalizer import build_dedup_hash, normalize_rss_xml
+from job_hunter.sources.parsers.dou_parsers import extract_dou_external_id, parse_dou_title
 
 DOU_URL = "https://jobs.dou.ua/vacancies/feeds/?category=Python"
 
@@ -27,31 +27,27 @@ class DouRssSource(BaseHttpJobSource):
         root = ET.fromstring(xml_response)
         vacancies: list[RawVacancy] = []
         for item in root.findall(".//item"):
-            raw_title = item.findtext("title")
-            link = item.findtext("link")
-            if not link or not raw_title:
+            normalized = normalize_rss_xml(item)
+            if not normalized:
                 continue
-            url = canonicalize_url(link)
-            vacancy_data = parse_dou_title(raw_title)
-            ext_id = extract_dou_external_id(url)
-            raw_desc = item.findtext("description")
-            description = sanitize_html(raw_desc) if raw_desc else ""
+            vacancy_data = parse_dou_title(normalized.title)
+            ext_id = extract_dou_external_id(normalized.url)
             dedup_param = (
-                description[:500]
-                if description and vacancy_data.company == "Unknown"
+                normalized.description[:500]
+                if normalized.description and vacancy_data.company == "Unknown"
                 else vacancy_data.company
             )
             vacancies.append(
                 RawVacancy(
                     source=self.source_name,
                     external_id=ext_id if ext_id else None,
-                    canonical_url=url,
+                    canonical_url=normalized.url,
                     dedup_hash=build_dedup_hash(vacancy_data.title, dedup_param),
                     title=vacancy_data.title,
                     company=vacancy_data.company,
                     location_or_remote=vacancy_data.location_or_remote,
                     salary_raw=vacancy_data.salary_raw,
-                    description_raw=description,
+                    description_raw=normalized.description,
                     partial_data=False,
                     fetched_at=fetch_time,
                 )
