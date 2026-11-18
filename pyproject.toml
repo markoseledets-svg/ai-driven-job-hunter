@@ -12,6 +12,8 @@ dependencies = [
     "fastapi>=0.115.0",
     "uvicorn[standard]>=0.32.0",
     "httpx>=0.27.2",
+    "beautifulsoup4>=4.15.0",
+    "defusedxml>=0.7.1",
 ]
 
 [dependency-groups]
@@ -20,6 +22,8 @@ dev = [
     "mypy>=1.13.0",
     "pytest>=8.3.0",
     "pytest-asyncio>=0.24.0",
+    "polyfactory>=3.5.0",
+    "types-defusedxml>=0.7.0.20260504",
 ]
 
 [build-system]

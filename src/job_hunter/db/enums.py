@@ -8,8 +8,3 @@ class VacancyStatus(StrEnum):
     NOTIFIED = "NOTIFIED"
     SKIPPED = "SKIPPED"
     APPLIED = "APPLIED"
-
-
-class VacancySource(StrEnum):
-    EMAIL = "EMAIL"
-    API = "API"

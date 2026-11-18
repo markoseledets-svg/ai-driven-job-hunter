@@ -1,6 +1,5 @@
 import argparse
 import asyncio
-import hashlib
 import logging
 from dataclasses import dataclass
 from datetime import UTC, datetime
@@ -11,13 +10,14 @@ from sqlalchemy import select
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from job_hunter.core.schemas import PrefilterConfig
-from job_hunter.db.enums import VacancySource, VacancyStatus
+from job_hunter.db.enums import VacancyStatus
 from job_hunter.db.models import (
     CalibrationExample,
     CandidateProfile,
     PipelineRun,
     Vacancy,
 )
+from job_hunter.sources.normalizer import build_dedup_hash
 
 logger = logging.getLogger(__name__)
 
@@ -39,7 +39,7 @@ class CalibrationExampleSeed(BaseModel):
 
 
 class VacancySeed(BaseModel):
-    source: VacancySource
+    source: str
     external_id: str | None = None
     canonical_url: str = Field(min_length=8)
     title: str = Field(min_length=3)
@@ -68,12 +68,6 @@ class SeedStats:
     calibrations_inserted: int
     vacancies_inserted: int
     pipeline_runs_inserted: int
-
-
-def build_dedup_hash(title: str, company: str) -> str:
-    """Build deterministic sha256 hash from normalized title and company."""
-    normalized = f"{title.strip().lower()}|{company.strip().lower()}"
-    return hashlib.sha256(normalized.encode("utf-8")).hexdigest()
 
 
 def load_seed_payload(path: Path = DEFAULT_SEED_PATH) -> SeedPayload:

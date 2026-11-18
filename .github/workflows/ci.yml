@@ -15,7 +15,7 @@ concurrency:
 
 jobs:
   lint-and-typecheck:
-    name: Ruff & Mypy
+    name: Ruff, Mypy & Pytest
     runs-on: ubuntu-latest
 
     steps:
@@ -39,6 +39,9 @@ jobs:
 
       - name: Run Mypy type checker
         run: uv run mypy src
+
+      - name: Run Pytest unit tests
+        run: uv run pytest
 
   sast-semgrep:
     name: Semgrep SAST
