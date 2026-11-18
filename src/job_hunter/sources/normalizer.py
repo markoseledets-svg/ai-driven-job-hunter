@@ -1,10 +1,14 @@
 import hashlib
 import re
 from dataclasses import dataclass
+from typing import Protocol
 from urllib.parse import parse_qsl, urlencode, urlsplit, urlunsplit
-from xml.etree.ElementTree import Element
 
 from bs4 import BeautifulSoup
+
+
+class XmlElement(Protocol):
+    def findtext(self, path: str) -> str | None: ...
 
 
 @dataclass(frozen=True)
@@ -50,7 +54,7 @@ def build_dedup_hash(title: str, dedup_param: str) -> str:
     return hashlib.sha256(normalized.encode("utf-8")).hexdigest()
 
 
-def normalize_rss_xml(item: Element) -> XmlOutput | None:
+def normalize_rss_xml(item: XmlElement) -> XmlOutput | None:
     raw_title = item.findtext("title")
     link = item.findtext("link")
     if not link or not raw_title:
