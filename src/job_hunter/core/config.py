@@ -7,10 +7,13 @@ class Settings(BaseSettings):
     # Database
     db_url: str
 
-    # db poll
+    # db pool
     pool_size: int = 5
     max_overflow: int = 5
     pool_timeout: int = 30
+
+    # allowed email senders for imap
+    allowed_emails: frozenset[str] = frozenset()
 
 
 settings = Settings()
