@@ -8,3 +8,4 @@ celerybeat-schedule*
 .idea/
 .vscode/
 .mypy_cache
+imap-examples/

@@ -25,7 +25,20 @@ def canonicalize_url(url: str) -> str:
     path = url_parts.path
     if path != "/":
         path = path.rstrip("/")
-    ignored_params = {"ref", "trk", "trackingid", "fbclid", "gclid"}
+    ignored_params = {
+        "ref",
+        "trk",
+        "trackingid",
+        "fbclid",
+        "gclid",
+        "eid",
+        "lipi",
+        "midsig",
+        "midtoken",
+        "otptoken",
+        "refid",
+        "trkemail",
+    }
     query_params = parse_qsl(url_parts.query, keep_blank_values=True)
     filtered_params = [
         (k, v)
