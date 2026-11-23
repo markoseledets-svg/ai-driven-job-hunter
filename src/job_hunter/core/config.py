@@ -15,5 +15,12 @@ class Settings(BaseSettings):
     # allowed email senders for imap
     allowed_emails: frozenset[str] = frozenset()
 
+    # imap configs
+    imap_password: str | None = None
+    imap_user: str | None = None
+    imap_host: str = "imap.gmail.com"
+    imap_mailbox: str = "INBOX"
+    imap_port: int = 993
+
 
 settings = Settings()
