@@ -1,3 +1,4 @@
+import logging
 from datetime import UTC, datetime
 
 import defusedxml.ElementTree as ET
@@ -8,6 +9,7 @@ from job_hunter.sources.base import BaseHttpJobSource
 from job_hunter.sources.normalizer import build_dedup_hash, normalize_rss_xml
 from job_hunter.sources.parsers.dou_parsers import extract_dou_external_id, parse_dou_title
 
+logger = logging.getLogger(__name__)
 DOU_URL = "https://jobs.dou.ua/vacancies/feeds/?category=Python"
 
 
@@ -23,12 +25,16 @@ class DouRssSource(BaseHttpJobSource):
         fetch_time = datetime.now(UTC)
         xml_response = await self._fetch_text()
         if not xml_response:
+            logger.warning("DOU RSS returned empty response")
             return []
         root = ET.fromstring(xml_response)
         vacancies: list[RawVacancy] = []
+        skipped = 0
         for item in root.findall(".//item"):
             normalized = normalize_rss_xml(item)
             if not normalized:
+                skipped += 1
+                logger.debug("Skipping malformed DOU RSS item")
                 continue
             vacancy_data = parse_dou_title(normalized.title)
             ext_id = extract_dou_external_id(normalized.url)
@@ -52,4 +58,10 @@ class DouRssSource(BaseHttpJobSource):
                     fetched_at=fetch_time,
                 )
             )
+        logger.info(
+            "Fetched %d vacancies from %s (skipped=%d)",
+            len(vacancies),
+            self.source_name,
+            skipped,
+        )
         return vacancies

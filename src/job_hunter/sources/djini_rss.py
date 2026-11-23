@@ -1,3 +1,4 @@
+import logging
 from datetime import UTC, datetime
 
 import defusedxml.ElementTree as ET
@@ -11,6 +12,7 @@ from job_hunter.sources.parsers.djini_parsers import (
     parse_djini_description,
 )
 
+logger = logging.getLogger(__name__)
 DJINI_URL = "https://djinni.co/jobs/rss/?primary_keyword=Python"
 
 
@@ -26,12 +28,16 @@ class DjiniRssSource(BaseHttpJobSource):
         fetch_time = datetime.now(UTC)
         xml_response = await self._fetch_text()
         if not xml_response:
+            logger.warning("Djinni RSS returned empty response")
             return []
         root = ET.fromstring(xml_response)
         vacancies: list[RawVacancy] = []
+        skipped = 0
         for item in root.findall(".//item"):
             normalized = normalize_rss_xml(item)
             if not normalized:
+                skipped += 1
+                logger.debug("Skipping malformed Djinni RSS item")
                 continue
             ext_id = extract_djini_external_id(normalized.url)
             vacancy_data = parse_djini_description(normalized.description)
@@ -55,4 +61,10 @@ class DjiniRssSource(BaseHttpJobSource):
                     fetched_at=fetch_time,
                 )
             )
+        logger.info(
+            "Fetched %d vacancies from %s (skipped=%d)",
+            len(vacancies),
+            self.source_name,
+            skipped,
+        )
         return vacancies

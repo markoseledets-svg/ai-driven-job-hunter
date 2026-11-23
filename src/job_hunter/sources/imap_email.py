@@ -1,9 +1,12 @@
 import asyncio
 import imaplib
+import logging
 
 from job_hunter.schemas.vacancy_schemas import RawVacancy
 from job_hunter.sources.base import BaseJobSource
 from job_hunter.sources.parsers.email_parsers import parse_email
+
+logger = logging.getLogger(__name__)
 
 
 class ImapEmailSource(BaseJobSource):
@@ -52,6 +55,9 @@ class ImapEmailSource(BaseJobSource):
                     or not isinstance(msg_data[0], tuple)
                     or not isinstance(msg_data[0][1], bytes)
                 ):
+                    logger.debug(
+                        "Skipping malformed IMAP message uid=%s status=%s", uid_str, status
+                    )
                     continue
 
                 mails.append(msg_data[0][1])
@@ -62,9 +68,16 @@ class ImapEmailSource(BaseJobSource):
     async def fetch(self) -> list[RawVacancy]:
         vacancies: list[RawVacancy] = []
         if not self._user or not self._password:
+            logger.warning("IMAP auth config missing; skipping %s", self.source_name)
             return []
         raw_messages = await asyncio.to_thread(self._fetch_unseen_sync, self._user, self._password)
         for msg_bytes in raw_messages:
             vacancies_list = parse_email(msg_bytes, self._allowed_emails)
             vacancies.extend(vacancies_list)
+        logger.info(
+            "Fetched %d vacancies from %d unread emails (%s)",
+            len(vacancies),
+            len(raw_messages),
+            self.source_name,
+        )
         return vacancies

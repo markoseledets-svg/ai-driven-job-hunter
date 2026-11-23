@@ -1,3 +1,5 @@
+from typing import Literal
+
 from pydantic_settings import BaseSettings, SettingsConfigDict
 
 
@@ -21,6 +23,10 @@ class Settings(BaseSettings):
     imap_host: str = "imap.gmail.com"
     imap_mailbox: str = "INBOX"
     imap_port: int = 993
+
+    # logging
+    log_level: str = "INFO"
+    log_format: Literal["console", "json"] = "console"
 
 
 settings = Settings()

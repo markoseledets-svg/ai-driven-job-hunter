@@ -1,8 +1,11 @@
+import logging
 import re
 from dataclasses import dataclass
 
 from job_hunter.core.schemas import PrefilterConfig
 from job_hunter.schemas.vacancy_schemas import RawVacancy
+
+logger = logging.getLogger(__name__)
 
 _RU_SPECIFIC_RE = re.compile(r"[ыэъё]", re.IGNORECASE)
 _UK_SPECIFIC_RE = re.compile(r"[іїєґ]", re.IGNORECASE)
@@ -70,19 +73,26 @@ class Prefilter:
             return "Language not allowed: en"
         return None
 
+    def _reject(self, vacancy: RawVacancy, reason: str) -> PrefilterResult:
+        logger.debug(
+            "Prefilter rejected vacancy '%s' (%s): %s",
+            vacancy.title,
+            vacancy.source,
+            reason,
+        )
+        return PrefilterResult(passed=False, reason=reason)
+
     def check(self, vacancy: RawVacancy) -> PrefilterResult:
         if vacancy.company.strip().lower() in self._excluded_companies:
-            return PrefilterResult(passed=False, reason=f"Excluded company: {vacancy.company}")
+            return self._reject(vacancy, f"Excluded company: {vacancy.company}")
 
         if matched_title := _find_matching_keyword(vacancy.title, self._excluded_title_patterns):
-            return PrefilterResult(passed=False, reason=f"Excluded title keyword: {matched_title}")
+            return self._reject(vacancy, f"Excluded title keyword: {matched_title}")
 
         if matched_desc := _find_matching_keyword(
             vacancy.description_raw, self._excluded_description_patterns
         ):
-            return PrefilterResult(
-                passed=False, reason=f"Excluded description keyword: {matched_desc}"
-            )
+            return self._reject(vacancy, f"Excluded description keyword: {matched_desc}")
 
         if self._required_any_patterns and not vacancy.partial_data:
             has_required = any(
@@ -90,9 +100,9 @@ class Prefilter:
                 for _, pattern in self._required_any_patterns
             )
             if not has_required:
-                return PrefilterResult(passed=False, reason="Missing required keywords")
+                return self._reject(vacancy, "Missing required keywords")
 
         if lang_reason := self._check_language(f"{vacancy.title}\n{vacancy.description_raw}"):
-            return PrefilterResult(passed=False, reason=lang_reason)
+            return self._reject(vacancy, lang_reason)
 
         return PrefilterResult(passed=True)
