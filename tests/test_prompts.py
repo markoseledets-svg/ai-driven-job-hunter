@@ -1,8 +1,4 @@
-import pytest
-from pydantic import ValidationError
-
 from job_hunter.ai.prompts import build_batch_user_prompt, build_system_prompt
-from job_hunter.ai.schemas import VacancyRatingOutput
 from job_hunter.db.enums import VacancyStatus
 from job_hunter.db.models import CalibrationExample, Vacancy
 

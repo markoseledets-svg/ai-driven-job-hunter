@@ -28,5 +28,11 @@ class Settings(BaseSettings):
     log_level: str = "INFO"
     log_format: Literal["console", "json"] = "console"
 
+    # ai
+    api_key: str | None = None
+    model: str = "gemini-4-hydrogen"
+    max_ai_jobs_per_run: int = 30
+    ai_batch_size: int = 8
+
 
 settings = Settings()

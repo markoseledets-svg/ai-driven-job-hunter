@@ -1,4 +1,4 @@
-from dataclasses import dataclass
+from dataclasses import dataclass, field
 
 from pydantic import BaseModel, Field
 from uuid6 import UUID
@@ -64,3 +64,12 @@ class ScoredVacancy:
     missing_skills: list[str]
     detected_company: str | None = None
     detected_location: str | None = None
+
+
+@dataclass(frozen=True)
+class ScoringResult:
+    """Internal output after scoring."""
+
+    scored: list[ScoredVacancy]
+    total_tokens: int = 0
+    failed_ids: list[UUID] = field(default_factory=list)
