@@ -51,6 +51,10 @@ class GeminiScorer:
         self._max_retries = max_retries
         self._base_delay = base_delay
 
+    @property
+    def model_name(self) -> str:
+        return self._model
+
     async def _send_to_ai(
         self,
         client: genai.Client,
