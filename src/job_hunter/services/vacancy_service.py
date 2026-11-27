@@ -6,6 +6,7 @@ from job_hunter.db.enums import VacancyStatus
 from job_hunter.db.models import Vacancy
 from job_hunter.db.repo.vacancy_repo import VacancyRepository
 from job_hunter.schemas.vacancy_schemas import RawVacancy
+from job_hunter.services.prefilter import Prefilter
 
 logger = logging.getLogger(__name__)
 
@@ -15,7 +16,10 @@ class VacancyService:
         self._vacancy_repo = vacancy_repo
 
     async def save_unique_vacancies(
-        self, vacancies: list[RawVacancy], pipeline_id: UUID
+        self,
+        vacancies: list[RawVacancy],
+        pipeline_id: UUID,
+        prefilter: Prefilter | None = None,
     ) -> list[Vacancy]:
         if not vacancies:
             return []
@@ -40,6 +44,7 @@ class VacancyService:
         )
         unique_db_vacancies: list[Vacancy] = []
         db_dups = 0
+        prefiltered = 0
         for v in unique_vacancies:
             if v.canonical_url in existing_urls or v.dedup_hash in existing_hashes:
                 db_dups += 1
@@ -49,6 +54,12 @@ class VacancyService:
                     v.canonical_url,
                 )
                 continue
+
+            status = VacancyStatus.NEW
+            if prefilter is not None and not prefilter.check(v).passed:
+                status = VacancyStatus.PREFILTERED
+                prefiltered += 1
+
             unique_db_vacancies.append(
                 Vacancy(
                     pipeline_id=pipeline_id,
@@ -62,7 +73,7 @@ class VacancyService:
                     salary_raw=v.salary_raw,
                     description_raw=v.description_raw,
                     partial_data=v.partial_data,
-                    status=VacancyStatus.NEW,
+                    status=status,
                     fetched_at=v.fetched_at,
                 )
             )
@@ -77,10 +88,11 @@ class VacancyService:
         added_vacancies = await self._vacancy_repo.add_many(entities=unique_db_vacancies)
         await self._vacancy_repo._session.commit()
         logger.info(
-            "Saved %d unique vacancies (incoming=%d, batch_dups=%d, db_dups=%d)",
+            "Saved %d unique vacancies (incoming=%d, batch_dups=%d, db_dups=%d, prefiltered=%d)",
             len(added_vacancies),
             len(vacancies),
             batch_dups,
             db_dups,
+            prefiltered,
         )
         return added_vacancies
