@@ -34,6 +34,9 @@ class GeminiScorer:
         self,
         client: genai.Client | None = None,
         api_key: str | None = None,
+        use_vertexai: bool = False,
+        gcp_project: str | None = None,
+        gcp_location: str = "global",
         model: str = "gemini-4-hydrogen",
         batch_size: int = 8,
         max_retries: int = 3,
@@ -41,8 +44,40 @@ class GeminiScorer:
     ) -> None:
         if client is not None:
             self._client: genai.Client | None = client
+        elif use_vertexai:
+            if gcp_project:
+                self._client = genai.Client(
+                    vertexai=True,
+                    project=gcp_project,
+                    location=gcp_location,
+                )
+                logger.info(
+                    "Initialized Gemini client using Vertex AI (project=%s, location=%s, model=%s)",
+                    gcp_project,
+                    gcp_location,
+                    model,
+                )
+            else:
+                logger.warning(
+                    "use_vertexai is enabled but gcp_project is not set; disabling Gemini client"
+                )
+                self._client = None
         elif api_key:
             self._client = genai.Client(api_key=api_key)
+            logger.info("Initialized Gemini Developer client (model=%s)", model)
+        elif gcp_project:
+            self._client = genai.Client(
+                vertexai=True,
+                project=gcp_project,
+                location=gcp_location,
+            )
+            logger.info(
+                "Initialized Gemini client using Vertex AI fallback "
+                "(project=%s, location=%s, model=%s)",
+                gcp_project,
+                gcp_location,
+                model,
+            )
         else:
             self._client = None
 

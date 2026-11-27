@@ -35,6 +35,9 @@ async def run_worker(*, mark_seen: bool = True) -> int:
             vacancy_service = VacancyService(vacancy_repo)
             gemini_scorer = GeminiScorer(
                 api_key=settings.api_key,
+                use_vertexai=settings.use_vertexai,
+                gcp_project=settings.gcp_project,
+                gcp_location=settings.gcp_location,
                 model=settings.model,
                 batch_size=settings.ai_batch_size,
             )

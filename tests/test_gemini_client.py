@@ -1,7 +1,8 @@
 from collections.abc import Callable
 from dataclasses import dataclass
-from typing import cast
+from typing import Any, cast
 
+import pytest
 from google import genai
 from google.genai.errors import APIError
 from uuid6 import uuid7
@@ -232,3 +233,75 @@ async def test_score_vacancies_tracks_missing_and_unknown_indices() -> None:
     assert [item.vacancy_id for item in result.scored] == [v1.id]
     assert result.failed_ids == [v2.id]
     assert result.total_tokens == 0
+
+
+async def test_init_uses_vertexai_when_flag_enabled(monkeypatch: pytest.MonkeyPatch) -> None:
+    calls: list[dict[str, Any]] = []
+    fake_client = _FakeGenaiClient(lambda call, contents: _FakeResponse())
+
+    def _fake_client_ctor(**kwargs: Any) -> _FakeGenaiClient:
+        calls.append(kwargs)
+        return fake_client
+
+    monkeypatch.setattr("job_hunter.ai.gemini_client.genai.Client", _fake_client_ctor)
+
+    GeminiScorer(api_key="key", use_vertexai=True, gcp_project="proj")
+
+    assert calls == [{"vertexai": True, "project": "proj", "location": "global"}]
+
+
+async def test_init_disables_client_when_vertexai_enabled_without_project(
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    calls: list[dict[str, Any]] = []
+
+    def _fake_client_ctor(**kwargs: Any) -> _FakeGenaiClient:
+        calls.append(kwargs)
+        return _FakeGenaiClient(lambda call, contents: _FakeResponse())
+
+    monkeypatch.setattr("job_hunter.ai.gemini_client.genai.Client", _fake_client_ctor)
+
+    scorer = GeminiScorer(api_key="key", use_vertexai=True, gcp_project=None)
+    result = await scorer.score_vacancies([_make_vacancy(1)], _make_calibration(), "CV")
+
+    assert calls == []
+    assert result.scored == []
+    assert result.total_tokens == 0
+    assert result.failed_ids == []
+
+
+async def test_init_uses_api_key_when_vertexai_disabled(monkeypatch: pytest.MonkeyPatch) -> None:
+    calls: list[dict[str, Any]] = []
+    fake_client = _FakeGenaiClient(lambda call, contents: _FakeResponse())
+
+    def _fake_client_ctor(**kwargs: Any) -> _FakeGenaiClient:
+        calls.append(kwargs)
+        return fake_client
+
+    monkeypatch.setattr("job_hunter.ai.gemini_client.genai.Client", _fake_client_ctor)
+
+    GeminiScorer(api_key="key", use_vertexai=False, gcp_project="proj")
+
+    assert calls == [{"api_key": "key"}]
+
+
+async def test_init_falls_back_to_vertexai_when_api_key_missing(
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    calls: list[dict[str, Any]] = []
+    fake_client = _FakeGenaiClient(lambda call, contents: _FakeResponse())
+
+    def _fake_client_ctor(**kwargs: Any) -> _FakeGenaiClient:
+        calls.append(kwargs)
+        return fake_client
+
+    monkeypatch.setattr("job_hunter.ai.gemini_client.genai.Client", _fake_client_ctor)
+
+    GeminiScorer(
+        api_key=None,
+        use_vertexai=False,
+        gcp_project="proj",
+        gcp_location="europe-west1",
+    )
+
+    assert calls == [{"vertexai": True, "project": "proj", "location": "europe-west1"}]

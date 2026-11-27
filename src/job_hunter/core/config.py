@@ -30,6 +30,9 @@ class Settings(BaseSettings):
 
     # ai
     api_key: str | None = None
+    use_vertexai: bool = False
+    gcp_project: str | None = None
+    gcp_location: str = "global"
     model: str = "gemini-4-hydrogen"
     max_ai_jobs_per_run: int = 30
     ai_batch_size: int = 8
